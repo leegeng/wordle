@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Family Wordle</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Family Wordle</h1>
+    <div id="puzzle-info" class="puzzle-info"></div>
+  </header>
+
+  <main>
+    <div id="board" class="board" aria-label="Wordle board"></div>
+
+    <div id="message" class="message" role="status" aria-live="polite"></div>
+
+    <div id="keyboard" class="keyboard" aria-label="On-screen keyboard"></div>
+  </main>
+
+  <script src="words.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
