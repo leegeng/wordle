@@ -8,10 +8,12 @@
   const keyboardEl = document.getElementById("keyboard");
   const messageEl = document.getElementById("message");
   const puzzleInfoEl = document.getElementById("puzzle-info");
+  const resultEl = document.getElementById("result");
 
   const dayIndex = computeDayIndex();
   const dateKey = formatDateKey(new Date());
-  const target = WORDS[((dayIndex % WORDS.length) + WORDS.length) % WORDS.length];
+  const targetEntry = WORDS[((dayIndex % WORDS.length) + WORDS.length) % WORDS.length];
+  const target = targetEntry.word;
   // Guess validation uses the larger dictionary; the answer pool stays curated in words.js.
   const validSet = DICTIONARY;
 
@@ -38,7 +40,7 @@
   bindInput();
 
   if (state.status !== "playing") {
-    showMessage(state.status === "won" ? "축하해요! 🎉" : `정답: ${target.toUpperCase()}`);
+    finishGame(state.status === "won");
   }
 
   // ---------- setup ----------
@@ -156,17 +158,20 @@
     paintRow(state.guesses.length - 1, guess, result);
     updateKeyboard(guess, result);
 
+    // Wait for flip animations (5 tiles × 250ms + 250ms flip = ~1500ms) before revealing result.
+    const revealDelay = COLS * 250 + 250;
+
     if (guess === target) {
       state.status = "won";
       saveState();
-      setTimeout(() => showMessage("축하해요! 🎉"), 500);
+      setTimeout(() => finishGame(true), revealDelay);
       return;
     }
 
     if (state.guesses.length >= ROWS) {
       state.status = "lost";
       saveState();
-      setTimeout(() => showMessage(`정답: ${target.toUpperCase()}`), 500);
+      setTimeout(() => finishGame(false), revealDelay);
       return;
     }
 
@@ -262,6 +267,14 @@
   function clearMessage() {
     messageEl.textContent = "";
     messageEl.classList.remove("error");
+  }
+
+  function finishGame(won) {
+    showMessage(won ? "축하해요! 🎉" : `정답: ${target.toUpperCase()}`);
+    resultEl.querySelector(".result-meaning").textContent = targetEntry.meaning;
+    resultEl.querySelector(".result-example-en").textContent = `"${targetEntry.exampleEn}"`;
+    resultEl.querySelector(".result-example-ko").textContent = targetEntry.exampleKo;
+    resultEl.hidden = false;
   }
 
   function saveState() {

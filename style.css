@@ -133,6 +133,44 @@ main {
 
 .message.error { color: #c0392b; }
 
+.result {
+  width: 100%;
+  max-width: 400px;
+  padding: 14px 18px;
+  background: #f4f5f6;
+  border-radius: 8px;
+  text-align: center;
+  animation: fade-in 0.35s ease forwards;
+}
+
+.result[hidden] { display: none; }
+
+.result-meaning {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 8px;
+}
+
+.result-example-en {
+  font-size: 14px;
+  color: var(--fg);
+  font-style: italic;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.result-example-ko {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .keyboard {
   width: 100%;
   display: flex;
