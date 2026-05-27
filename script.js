@@ -12,7 +12,8 @@
   const dayIndex = computeDayIndex();
   const dateKey = formatDateKey(new Date());
   const target = WORDS[((dayIndex % WORDS.length) + WORDS.length) % WORDS.length];
-  const validSet = new Set(WORDS); // accept any word from the list as a guess
+  // Guess validation uses the larger dictionary; the answer pool stays curated in words.js.
+  const validSet = DICTIONARY;
 
   const state = loadState() || {
     date: dateKey,
