@@ -271,10 +271,40 @@
 
   function finishGame(won) {
     showMessage(won ? "축하해요! 🎉" : `정답: ${target.toUpperCase()}`);
+    resultEl.querySelector(".result-word").textContent = target.toUpperCase();
     resultEl.querySelector(".result-meaning").textContent = targetEntry.meaning;
     resultEl.querySelector(".result-example-en").textContent = `"${targetEntry.exampleEn}"`;
     resultEl.querySelector(".result-example-ko").textContent = targetEntry.exampleKo;
+    setupTts();
     resultEl.hidden = false;
+  }
+
+  // ---------- text-to-speech ----------
+
+  function ttsAvailable() {
+    return typeof window !== "undefined"
+      && "speechSynthesis" in window
+      && typeof window.SpeechSynthesisUtterance === "function";
+  }
+
+  function speak(text, lang = "en-US") {
+    if (!ttsAvailable()) return;
+    // Cancel anything queued so rapid clicks don't pile up.
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = lang;
+    u.rate = 0.9;
+    window.speechSynthesis.speak(u);
+  }
+
+  function setupTts() {
+    if (!ttsAvailable()) return; // Buttons stay hidden — graceful degradation.
+    const wordBtn = resultEl.querySelector('.tts-btn[data-tts="word"]');
+    const exBtn = resultEl.querySelector('.tts-btn[data-tts="example"]');
+    wordBtn.hidden = false;
+    exBtn.hidden = false;
+    wordBtn.onclick = () => speak(target, "en-US");
+    exBtn.onclick = () => speak(targetEntry.exampleEn, "en-US");
   }
 
   function saveState() {

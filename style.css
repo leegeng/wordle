@@ -145,18 +145,40 @@ main {
 
 .result[hidden] { display: none; }
 
+.result-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.result-word {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--fg);
+}
+
 .result-meaning {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: var(--fg);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+}
+
+.result-example {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 4px;
 }
 
 .result-example-en {
   font-size: 14px;
   color: var(--fg);
   font-style: italic;
-  margin-bottom: 4px;
   line-height: 1.4;
 }
 
@@ -165,6 +187,23 @@ main {
   color: var(--muted);
   line-height: 1.4;
 }
+
+.tts-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--fg);
+  opacity: 0.7;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+
+.tts-btn:hover { opacity: 1; background: rgba(0, 0, 0, 0.05); }
+.tts-btn:active { transform: translateY(1px); }
+.tts-btn[hidden] { display: none; }
 
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(6px); }
